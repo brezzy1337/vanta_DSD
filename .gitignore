@@ -2,3 +2,4 @@ node_modules/
 inspiration/
 temp/
 gallery/
+.aider*

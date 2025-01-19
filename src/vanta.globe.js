@@ -47,11 +47,14 @@ class Effect extends VantaBase {
   //   this.cube.rotation.y += 0.01;
   // }
 
+  // Generates a new point object for the globe visualization and adds it to the scene.
+  // - The index of the newly added point in the `this.points` array.
   genPoint(x, y, z) {
     let sphere
     if (!this.points) { this.points = [] }
 
     if (this.options.showDots) {
+      // Creates a new THREE.Mesh object with a sphere geometry and a MeshLambertMaterial using the `this.options.color` value. If `this.options.showDots` is false, a THREE.Object3D is created instead.
       const geometry = new THREE.SphereGeometry( 0.25, 12, 12 ) // radius, width, height
       const material = new THREE.MeshLambertMaterial({
         color: this.options.color})
@@ -76,14 +79,28 @@ class Effect extends VantaBase {
     let n = this.options.points
     let { spacing } = this.options
 
+    
+    // Initializes the line positions and colors arrays for the globe visualization.
+    // The `numPoints` variable is calculated as `n * n * 2`, where `n` is the number of points specified in the options. This determines the total number of points to be rendered.
+    // The `this.linePositions` and `this.lineColors` arrays are then created as `Float32Array` instances with the appropriate size to store the position and color data for all the points.
     const numPoints = n * n * 2
     this.linePositions = new Float32Array( numPoints * numPoints * 3 )
     this.lineColors = new Float32Array( numPoints * numPoints * 3 )
 
+    // Determines the blending mode for the globe visualization based on the brightness of the foreground color and background color.
+    // The `getBrightness` function is used to calculate the brightness of the `this.options.color` and `this.options.backgroundColor` values. 
+    // If the foreground color is brighter than the background color, the blending mode is set to 'additive', otherwise it is set to 'subtractive'.
+    // This blending mode is used to control how the globe visualization is rendered on top of the background.
     const colorB = getBrightness(new THREE.Color(this.options.color))
     const bgB = getBrightness(new THREE.Color(this.options.backgroundColor))
     this.blending =  colorB > bgB ? 'additive' : 'subtractive'
 
+    // This code sets up the geometry and material for the globe visualization in the Vanta.js library. 
+    // It creates a `THREE.BufferGeometry` instance and sets the position and color data for the vertices using `THREE.BufferAttribute` instances. 
+    // The `DynamicDrawUsage` flag is set to indicate that the vertex data may change frequently.
+    // The code also computes the bounding sphere for the geometry and sets the initial draw range to 0, which means no vertices will be drawn initially.
+    // Finally, the code creates a `THREE.LineBasicMaterial` instance with the appropriate blending mode based on the brightness of the foreground and background colors. 
+    // The `vertexColors` property is set to `THREE.VertexColors` to use the vertex colors for the material, and the `transparent` property is set to `true` to enable transparency.
     const geometry = new THREE.BufferGeometry();
     geometry.setAttribute('position',
       new THREE.BufferAttribute(this.linePositions, 3).setUsage(THREE.DynamicDrawUsage))
@@ -102,9 +119,14 @@ class Effect extends VantaBase {
       // blendSrc: THREE.SrcAlphaFactor
       // blendDst: THREE.OneMinusSrcAlphaFactor
 
+    // Creates a new THREE.LineSegments object using the provided geometry and material, and adds it to the `this.cont` group.
+    // The `this.linesMesh` property is set to the created LineSegments object, which represents the globe visualization in the scene.
     this.linesMesh = new THREE.LineSegments( geometry, material )
     this.cont.add( this.linesMesh )
 
+    // This code is responsible for generating the points that make up the globe visualization in the Vanta.js library. 
+    // It iterates over a grid of points, calculating the x and z coordinates based on the `n` (number of points) and `spacing` options, and then calling the `genPoint` method to add the point to the visualization.
+    // The commented-out code suggests that there may have been additional logic to offset the z-coordinate for every other row, and to round the x and z coordinates to a grid, but this functionality is not currently being used.
     for (let i = 0; i<=n; i++) {
       for (let j = 0; j<=n; j++) {
         const y = 0
