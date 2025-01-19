@@ -95,7 +95,7 @@ class Effect extends VantaBase {
     const bgB = getBrightness(new THREE.Color(this.options.backgroundColor))
     this.blending =  colorB > bgB ? 'additive' : 'subtractive'
 
-    // This code sets up the geometry and material for the globe visualization in the Vanta.js library. 
+    // This code sets up the geometry and material for the background plane visualization in the Vanta.js library. 
     // It creates a `THREE.BufferGeometry` instance and sets the position and color data for the vertices using `THREE.BufferAttribute` instances. 
     // The `DynamicDrawUsage` flag is set to indicate that the vertex data may change frequently.
     // The code also computes the bounding sphere for the geometry and sets the initial draw range to 0, which means no vertices will be drawn initially.
@@ -177,28 +177,31 @@ class Effect extends VantaBase {
 
 
     // LINES BALL
-    this.cont2 = new THREE.Group()
-    this.cont2.position.set(0, 15, 0)
-    this.scene.add(this.cont2)
+    // this.cont2 = new THREE.Group()
+    // this.cont2.position.set(0, 15, 0)
+    // this.scene.add(this.cont2)
 
-    const material2 = new THREE.LineBasicMaterial({ color: this.options.color2 })
-    const linePoints = []
-    for (let i = 0; i < 80; i ++) {
-      const f1 = rn(18,24)
-      const f2 = f1 + rn(1,6)
-      // https://math.stackexchange.com/questions/1585975/how-to-generate-random-points-on-a-sphere
-      const z = rn(-1,1)
-      const r = Math.sqrt(1 - z*z)
-      const theta = rn(0, Math.PI * 2)
-      const y = Math.sin(theta) * r
-      const x = Math.cos(theta) * r
-      linePoints.push(new THREE.Vector3( x*f1, y*f1, z*f1) )
-      linePoints.push(new THREE.Vector3( x*f2, y*f2, z*f2) )
-    }
-    const linesGeo = new THREE.BufferGeometry().setFromPoints( linePoints )
-    this.linesMesh2 = new THREE.LineSegments( linesGeo, material2 )
-    this.linesMesh2.position.set(0, 0, 0)
-    this.cont2.add(this.linesMesh2)
+      // Generates a new point object to add the lines to the globe and adds it to the scene.
+      // - The index of the newly added point in the `this.points` array.
+      // I want to replace this with continances 
+    // const material2 = new THREE.LineBasicMaterial({ color: this.options.color2 })
+    // const linePoints = []
+    // for (let i = 0; i < 80; i ++) {
+    //   const f1 = rn(18,24)
+    //   const f2 = f1 + rn(1,6)
+    //   // https://math.stackexchange.com/questions/1585975/how-to-generate-random-points-on-a-sphere
+    //   const z = rn(-1,1)
+    //   const r = Math.sqrt(1 - z*z)
+    //   const theta = rn(0, Math.PI * 2)
+    //   const y = Math.sin(theta) * r
+    //   const x = Math.cos(theta) * r
+    //   linePoints.push(new THREE.Vector3( x*f1, y*f1, z*f1) )
+    //   linePoints.push(new THREE.Vector3( x*f2, y*f2, z*f2) )
+    // }
+    // const linesGeo = new THREE.BufferGeometry().setFromPoints( linePoints )
+    // this.linesMesh2 = new THREE.LineSegments( linesGeo, material2 )
+    // this.linesMesh2.position.set(0, 0, 0)
+    // this.cont2.add(this.linesMesh2)
 
     // Poles
     const material3 = new THREE.LineBasicMaterial( {
@@ -235,8 +238,6 @@ class Effect extends VantaBase {
     this.cont2.add(this.sphere)
 
     this.cont2.rotation.x = -0.25
-
-
   }
 
   onUpdate() {
