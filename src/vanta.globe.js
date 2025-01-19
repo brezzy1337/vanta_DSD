@@ -204,28 +204,28 @@ class Effect extends VantaBase {
     // this.cont2.add(this.linesMesh2)
 
     // Poles
-    const material3 = new THREE.LineBasicMaterial( {
-      color: this.options.color2,
-      linewidth: 2,
-    } )
-    const linePoints3 = []
-    linePoints3.push(new THREE.Vector3( 0, 30, 0))
-    linePoints3.push(new THREE.Vector3( 0, -30, 0))
-    const num = 4
-    for (let i = 0; i < num; i ++) {
-      let x = 0.15 * Math.cos(i/num*Math.PI*2),
-          z = 0.15 * Math.sin(i/num*Math.PI*2)
-      let heights = [17.9,12,8,5,3,2,1.5,1.1,0.8,0.6,0.45,0.3,0.2,0.1,0.05,0.03,0.02,0.01]
-      for (let j = 0; j<heights.length; j++) {
-        let h = heights[j], r = 6*(j+1)
-        linePoints3.push(new THREE.Vector3(x*r, h, z*r))
-        linePoints3.push(new THREE.Vector3(x*r, -h, z*r))
-      }
-    }
-    const linesGeo3 = new THREE.BufferGeometry().setFromPoints( linePoints3 )
-    this.linesMesh3 = new THREE.LineSegments( linesGeo3, material3 )
-    this.linesMesh3.position.set(0, 0, 0)
-    this.cont2.add(this.linesMesh3)
+    // const material3 = new THREE.LineBasicMaterial( {
+    //   color: this.options.color2,
+    //   linewidth: 2,
+    // } )
+    // const linePoints3 = []
+    // linePoints3.push(new THREE.Vector3( 0, 30, 0))
+    // linePoints3.push(new THREE.Vector3( 0, -30, 0))
+    // const num = 4
+    // for (let i = 0; i < num; i ++) {
+    //   let x = 0.15 * Math.cos(i/num*Math.PI*2),
+    //       z = 0.15 * Math.sin(i/num*Math.PI*2)
+    //   let heights = [17.9,12,8,5,3,2,1.5,1.1,0.8,0.6,0.45,0.3,0.2,0.1,0.05,0.03,0.02,0.01]
+    //   for (let j = 0; j<heights.length; j++) {
+    //     let h = heights[j], r = 6*(j+1)
+    //     linePoints3.push(new THREE.Vector3(x*r, h, z*r))
+    //     linePoints3.push(new THREE.Vector3(x*r, -h, z*r))
+    //   }
+    // }
+    // const linesGeo3 = new THREE.BufferGeometry().setFromPoints( linePoints3 )
+    // this.linesMesh3 = new THREE.LineSegments( linesGeo3, material3 )
+    // this.linesMesh3.position.set(0, 0, 0)
+    // this.cont2.add(this.linesMesh3)
 
 
     // GLOBE
