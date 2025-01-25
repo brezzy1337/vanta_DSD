@@ -4,6 +4,9 @@ import {rn, getBrightness} from './helpers.js'
 const win = typeof window == 'object'
 let THREE = win && window.THREE
 
+
+// Vanta Base sets up the core features needed for all THREE.js projects, camera, scene, renderer. It also implement the foundation of event handling around the gyroscope effects with mouse movement.
+// Vanta Base also provides window resize handling.
 class Effect extends VantaBase {
   static initClass() {
     this.prototype.defaultOptions = {
@@ -240,6 +243,18 @@ class Effect extends VantaBase {
     this.cont2.rotation.x = -0.25
   }
 
+  // The `onUpdate()` method is responsible for updating the state of the globe visualization. It performs the following tasks:
+  
+  // 1. Updates the helper and controls if they exist.
+  // 2. Smoothly updates the camera position based on the target position.
+  // 3. Adjusts the camera look-at position based on the window size.
+  // 4. Calculates various color values used in the visualization.
+  // 5. Updates the ray caster if it exists.
+  // 6. Rotates the `linesMesh2` and `sphere` objects.
+  // 7. Iterates through the `points` array and updates the position, scale, and color of the points based on their distance from the camera and the overall visualization state.
+  // 8. Updates the geometry and attributes of the `linesMesh` object to reflect the changes in the points.
+  // 9. Updates the color of the `sphere`, `linesMesh2`, and `linesMesh3` objects.
+  // 10. Returns the current time value scaled by 0.001.
   onUpdate() {
     let diff
     if (this.helper != null) {
@@ -333,41 +348,42 @@ class Effect extends VantaBase {
         // p.position.x += Math.sin(@t * 0.01 + p.position.y) * 0.02
         // p.position.z += Math.sin(@t * 0.01 - p.position.y) * 0.02
 
-      for (let j = i; j < this.points.length; j++) {
-        const p2 = this.points[j]
-        const dx = p.position.x - p2.position.x
-        const dy = p.position.y - p2.position.y
-        const dz = p.position.z - p2.position.z
-        dist = Math.sqrt( (dx * dx) + (dy * dy) + (dz * dz) )
-        if (dist < this.options.maxDistance) {
-          let lineColor
-          let alpha = (( 1.0 - (dist / this.options.maxDistance) ) * 2)
-          alpha = alpha.clamp(0, 1)
-          if (this.blending === 'additive') {
-            lineColor = new THREE.Color(0x000000).lerp(diffColor, alpha)
-          } else {
-            lineColor = bgColor.clone().lerp(color, alpha)
-          }
-          // if @blending == 'subtractive'
-          //   lineColor = new THREE.Color(0x000000).lerp(diffColor, alpha)
+      // This code block is responsible for rendering the connections between points in a 3D globe visualization. It iterates through the `this.points` array and calculates the distance between each pair of points. If the distance is less than the `maxDistance` option, it calculates the color of the line connecting the two points based on the distance and the `blending` option. The calculated line color and vertex positions are then stored in the `linePositions` and `lineColors` arrays, which are used to update the geometry of the `linesMesh` object.
+      // for (let j = i; j < this.points.length; j++) {
+      //   const p2 = this.points[j]
+      //   const dx = p.position.x - p2.position.x
+      //   const dy = p.position.y - p2.position.y
+      //   const dz = p.position.z - p2.position.z
+      //   dist = Math.sqrt( (dx * dx) + (dy * dy) + (dz * dz) )
+      //   if (dist < this.options.maxDistance) {
+      //     let lineColor
+      //     let alpha = (( 1.0 - (dist / this.options.maxDistance) ) * 2)
+      //     alpha = alpha.clamp(0, 1)
+      //     if (this.blending === 'additive') {
+      //       lineColor = new THREE.Color(0x000000).lerp(diffColor, alpha)
+      //     } else {
+      //       lineColor = bgColor.clone().lerp(color, alpha)
+      //     }
+      //     // if @blending == 'subtractive'
+      //     //   lineColor = new THREE.Color(0x000000).lerp(diffColor, alpha)
 
-          this.linePositions[ vertexpos++ ] = p.position.x
-          this.linePositions[ vertexpos++ ] = p.position.y
-          this.linePositions[ vertexpos++ ] = p.position.z
-          this.linePositions[ vertexpos++ ] = p2.position.x
-          this.linePositions[ vertexpos++ ] = p2.position.y
-          this.linePositions[ vertexpos++ ] = p2.position.z
+      //     this.linePositions[ vertexpos++ ] = p.position.x
+      //     this.linePositions[ vertexpos++ ] = p.position.y
+      //     this.linePositions[ vertexpos++ ] = p.position.z
+      //     this.linePositions[ vertexpos++ ] = p2.position.x
+      //     this.linePositions[ vertexpos++ ] = p2.position.y
+      //     this.linePositions[ vertexpos++ ] = p2.position.z
 
-          this.lineColors[ colorpos++ ] = lineColor.r
-          this.lineColors[ colorpos++ ] = lineColor.g
-          this.lineColors[ colorpos++ ] = lineColor.b
-          this.lineColors[ colorpos++ ] = lineColor.r
-          this.lineColors[ colorpos++ ] = lineColor.g
-          this.lineColors[ colorpos++ ] = lineColor.b
+      //     this.lineColors[ colorpos++ ] = lineColor.r
+      //     this.lineColors[ colorpos++ ] = lineColor.g
+      //     this.lineColors[ colorpos++ ] = lineColor.b
+      //     this.lineColors[ colorpos++ ] = lineColor.r
+      //     this.lineColors[ colorpos++ ] = lineColor.g
+      //     this.lineColors[ colorpos++ ] = lineColor.b
 
-          numConnected++
-        }
-      }
+      //     numConnected++
+      //   }
+      // }
     }
     this.linesMesh.geometry.setDrawRange( 0, numConnected * 2 )
     this.linesMesh.geometry.attributes.position.needsUpdate = true
@@ -393,8 +409,8 @@ class Effect extends VantaBase {
       c.oz = c.position.z
     }
     const ang = Math.atan2(c.oz, c.ox)
-    const dist = Math.sqrt((c.oz*c.oz) + (c.ox*c.ox))
-    const tAng = ang + ((x-0.5) * 1.5 * (this.options.mouseCoeffX || 1))
+    const dist = Math.sqrt((c.oz * c.oz) + (c.ox * c.ox))
+    const tAng = ang + ((x - 0.5) * 1.5 * (this.options.mouseCoeffX || 1))
     c.tz = dist * Math.sin(tAng)
     c.tx = dist * Math.cos(tAng)
     c.ty = c.oy + ((y-0.5) * 80 * (this.options.mouseCoeffY || 1))
