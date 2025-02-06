@@ -180,55 +180,55 @@ class Effect extends VantaBase {
 
 
     // LINES BALL
-    // this.cont2 = new THREE.Group()
-    // this.cont2.position.set(0, 15, 0)
-    // this.scene.add(this.cont2)
+    this.cont2 = new THREE.Group()
+    this.cont2.position.set(0, 15, 0)
+    this.scene.add(this.cont2)
 
       // Generates a new point object to add the lines to the globe and adds it to the scene.
       // - The index of the newly added point in the `this.points` array.
       // I want to replace this with continances 
-    // const material2 = new THREE.LineBasicMaterial({ color: this.options.color2 })
-    // const linePoints = []
-    // for (let i = 0; i < 80; i ++) {
-    //   const f1 = rn(18,24)
-    //   const f2 = f1 + rn(1,6)
-    //   // https://math.stackexchange.com/questions/1585975/how-to-generate-random-points-on-a-sphere
-    //   const z = rn(-1,1)
-    //   const r = Math.sqrt(1 - z*z)
-    //   const theta = rn(0, Math.PI * 2)
-    //   const y = Math.sin(theta) * r
-    //   const x = Math.cos(theta) * r
-    //   linePoints.push(new THREE.Vector3( x*f1, y*f1, z*f1) )
-    //   linePoints.push(new THREE.Vector3( x*f2, y*f2, z*f2) )
-    // }
-    // const linesGeo = new THREE.BufferGeometry().setFromPoints( linePoints )
-    // this.linesMesh2 = new THREE.LineSegments( linesGeo, material2 )
-    // this.linesMesh2.position.set(0, 0, 0)
-    // this.cont2.add(this.linesMesh2)
+    const material2 = new THREE.LineBasicMaterial({ color: this.options.color2 })
+    const linePoints = []
+    for (let i = 0; i < 80; i ++) {
+      const f1 = rn(18,24)
+      const f2 = f1 + rn(1,6)
+      // https://math.stackexchange.com/questions/1585975/how-to-generate-random-points-on-a-sphere
+      const z = rn(-1,1)
+      const r = Math.sqrt(1 - z*z)
+      const theta = rn(0, Math.PI * 2)
+      const y = Math.sin(theta) * r
+      const x = Math.cos(theta) * r
+      linePoints.push(new THREE.Vector3( x*f1, y*f1, z*f1) )
+      linePoints.push(new THREE.Vector3( x*f2, y*f2, z*f2) )
+    }
+    const linesGeo = new THREE.BufferGeometry().setFromPoints( linePoints )
+    this.linesMesh2 = new THREE.LineSegments( linesGeo, material2 )
+    this.linesMesh2.position.set(0, 0, 0)
+    this.cont2.add(this.linesMesh2)
 
     // Poles
-    // const material3 = new THREE.LineBasicMaterial( {
-    //   color: this.options.color2,
-    //   linewidth: 2,
-    // } )
-    // const linePoints3 = []
-    // linePoints3.push(new THREE.Vector3( 0, 30, 0))
-    // linePoints3.push(new THREE.Vector3( 0, -30, 0))
-    // const num = 4
-    // for (let i = 0; i < num; i ++) {
-    //   let x = 0.15 * Math.cos(i/num*Math.PI*2),
-    //       z = 0.15 * Math.sin(i/num*Math.PI*2)
-    //   let heights = [17.9,12,8,5,3,2,1.5,1.1,0.8,0.6,0.45,0.3,0.2,0.1,0.05,0.03,0.02,0.01]
-    //   for (let j = 0; j<heights.length; j++) {
-    //     let h = heights[j], r = 6*(j+1)
-    //     linePoints3.push(new THREE.Vector3(x*r, h, z*r))
-    //     linePoints3.push(new THREE.Vector3(x*r, -h, z*r))
-    //   }
-    // }
-    // const linesGeo3 = new THREE.BufferGeometry().setFromPoints( linePoints3 )
-    // this.linesMesh3 = new THREE.LineSegments( linesGeo3, material3 )
-    // this.linesMesh3.position.set(0, 0, 0)
-    // this.cont2.add(this.linesMesh3)
+    const material3 = new THREE.LineBasicMaterial( {
+      color: this.options.color2,
+      linewidth: 2,
+    } )
+    const linePoints3 = []
+    linePoints3.push(new THREE.Vector3( 0, 30, 0))
+    linePoints3.push(new THREE.Vector3( 0, -30, 0))
+    const num = 4
+    for (let i = 0; i < num; i ++) {
+      let x = 0.15 * Math.cos(i/num*Math.PI*2),
+          z = 0.15 * Math.sin(i/num*Math.PI*2)
+      let heights = [17.9,12,8,5,3,2,1.5,1.1,0.8,0.6,0.45,0.3,0.2,0.1,0.05,0.03,0.02,0.01]
+      for (let j = 0; j<heights.length; j++) {
+        let h = heights[j], r = 6*(j+1)
+        linePoints3.push(new THREE.Vector3(x*r, h, z*r))
+        linePoints3.push(new THREE.Vector3(x*r, -h, z*r))
+      }
+    }
+    const linesGeo3 = new THREE.BufferGeometry().setFromPoints( linePoints3 )
+    this.linesMesh3 = new THREE.LineSegments( linesGeo3, material3 )
+    this.linesMesh3.position.set(0, 0, 0)
+    this.cont2.add(this.linesMesh3)
 
 
     // GLOBE
@@ -349,41 +349,41 @@ class Effect extends VantaBase {
         // p.position.z += Math.sin(@t * 0.01 - p.position.y) * 0.02
 
       // This code block is responsible for rendering the connections between points in a 3D globe visualization. It iterates through the `this.points` array and calculates the distance between each pair of points. If the distance is less than the `maxDistance` option, it calculates the color of the line connecting the two points based on the distance and the `blending` option. The calculated line color and vertex positions are then stored in the `linePositions` and `lineColors` arrays, which are used to update the geometry of the `linesMesh` object.
-      // for (let j = i; j < this.points.length; j++) {
-      //   const p2 = this.points[j]
-      //   const dx = p.position.x - p2.position.x
-      //   const dy = p.position.y - p2.position.y
-      //   const dz = p.position.z - p2.position.z
-      //   dist = Math.sqrt( (dx * dx) + (dy * dy) + (dz * dz) )
-      //   if (dist < this.options.maxDistance) {
-      //     let lineColor
-      //     let alpha = (( 1.0 - (dist / this.options.maxDistance) ) * 2)
-      //     alpha = alpha.clamp(0, 1)
-      //     if (this.blending === 'additive') {
-      //       lineColor = new THREE.Color(0x000000).lerp(diffColor, alpha)
-      //     } else {
-      //       lineColor = bgColor.clone().lerp(color, alpha)
-      //     }
-      //     // if @blending == 'subtractive'
-      //     //   lineColor = new THREE.Color(0x000000).lerp(diffColor, alpha)
+      for (let j = i; j < this.points.length; j++) {
+        const p2 = this.points[j]
+        const dx = p.position.x - p2.position.x
+        const dy = p.position.y - p2.position.y
+        const dz = p.position.z - p2.position.z
+        dist = Math.sqrt( (dx * dx) + (dy * dy) + (dz * dz) )
+        if (dist < this.options.maxDistance) {
+          let lineColor
+          let alpha = (( 1.0 - (dist / this.options.maxDistance) ) * 2)
+          alpha = alpha.clamp(0, 1)
+          if (this.blending === 'additive') {
+            lineColor = new THREE.Color(0x000000).lerp(diffColor, alpha)
+          } else {
+            lineColor = bgColor.clone().lerp(color, alpha)
+          }
+          // if @blending == 'subtractive'
+          //   lineColor = new THREE.Color(0x000000).lerp(diffColor, alpha)
 
-      //     this.linePositions[ vertexpos++ ] = p.position.x
-      //     this.linePositions[ vertexpos++ ] = p.position.y
-      //     this.linePositions[ vertexpos++ ] = p.position.z
-      //     this.linePositions[ vertexpos++ ] = p2.position.x
-      //     this.linePositions[ vertexpos++ ] = p2.position.y
-      //     this.linePositions[ vertexpos++ ] = p2.position.z
+          this.linePositions[ vertexpos++ ] = p.position.x
+          this.linePositions[ vertexpos++ ] = p.position.y
+          this.linePositions[ vertexpos++ ] = p.position.z
+          this.linePositions[ vertexpos++ ] = p2.position.x
+          this.linePositions[ vertexpos++ ] = p2.position.y
+          this.linePositions[ vertexpos++ ] = p2.position.z
 
-      //     this.lineColors[ colorpos++ ] = lineColor.r
-      //     this.lineColors[ colorpos++ ] = lineColor.g
-      //     this.lineColors[ colorpos++ ] = lineColor.b
-      //     this.lineColors[ colorpos++ ] = lineColor.r
-      //     this.lineColors[ colorpos++ ] = lineColor.g
-      //     this.lineColors[ colorpos++ ] = lineColor.b
+          this.lineColors[ colorpos++ ] = lineColor.r
+          this.lineColors[ colorpos++ ] = lineColor.g
+          this.lineColors[ colorpos++ ] = lineColor.b
+          this.lineColors[ colorpos++ ] = lineColor.r
+          this.lineColors[ colorpos++ ] = lineColor.g
+          this.lineColors[ colorpos++ ] = lineColor.b
 
-      //     numConnected++
-      //   }
-      // }
+          numConnected++
+        }
+      }
     }
     this.linesMesh.geometry.setDrawRange( 0, numConnected * 2 )
     this.linesMesh.geometry.attributes.position.needsUpdate = true
